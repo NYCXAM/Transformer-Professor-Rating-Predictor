@@ -25,12 +25,15 @@ for name in professors:
         curr_reviews = data.get("reviews", [])
         reviews.extend(curr_reviews)
         print(f"Fetched {len(reviews)} reviews for {name}")
-        time.sleep(1)
+        time.sleep(2)
 
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data: {e}")
         break
 
 print(reviews)
+
 df = pd.DataFrame(reviews)
+df.drop(columns=["professor", "course", "expected_grade", "created"], inplace=True)
+df["rating"] = df["rating"] - 1
 df.to_csv("reviews.csv", index=False)
