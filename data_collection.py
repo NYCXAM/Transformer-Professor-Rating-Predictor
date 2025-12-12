@@ -36,4 +36,5 @@ print(reviews)
 df = pd.DataFrame(reviews)
 df.drop(columns=["professor", "course", "expected_grade", "created"], inplace=True)
 df["rating"] = df["rating"] - 1
+df.rename(columns={"rating": "label"}, inplace=True)
 df.to_csv("reviews.csv", index=False)
