@@ -39,4 +39,4 @@ df = df.drop(columns=['word_count'])
 df.to_csv("../data/processed/cleaned_reviews.csv", index=False)
 
 print(f"removed {original_count - len(df)} bad reviews.")
-print(f"Saved {len(df)} reviews tocleaned_reviews.csv")
+print(f"Saved {len(df)} reviews to cleaned_reviews.csv")

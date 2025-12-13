@@ -9,7 +9,7 @@ if torch.cuda.is_available():
     print("GPU with CUDA")
     device = torch.device("cuda")
 else:
-    print("Something is wrong with cuda, training with CPU")
+    print("something is wrong with cuda, training with CPU")
 
 dataset = load_dataset("csv", data_files="../data/processed/cleaned_reviews.csv", split="train")
 dataset = dataset.cast_column("label", ClassLabel(num_classes=5))
