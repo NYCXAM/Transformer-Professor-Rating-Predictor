@@ -10,16 +10,19 @@ plt.style.use('ggplot')
 sns.set_theme(style="whitegrid")
 
 
-def plot_rating_distribution(csv_file="cleaned_reviews.csv"):
+def plot_rating_distribution(csv_file=None):
     """
     Step 1: Visualize the Data
     Reads the CSV and creates a bar chart of the star ratings.
     """
+    if csv_file is None:
+        csv_file = "../data/processed/cleaned_reviews.csv"
+    
     print(f"--- Generating Rating Distribution from {csv_file} ---")
 
     if not os.path.exists(csv_file):
-        print(f"Warning: {csv_file} not found. Trying 'reviews.csv'...")
-        csv_file = "reviews.csv"
+        print(f"Warning: {csv_file} not found. Trying raw reviews.csv...")
+        csv_file = "../data/raw/reviews.csv"
         if not os.path.exists(csv_file):
             print("Error: No data file found. Skipping this graph.")
             return
@@ -52,23 +55,27 @@ def plot_rating_distribution(csv_file="cleaned_reviews.csv"):
                     ha='center', va='center', fontsize=11, color='black', xytext=(0, 5),
                     textcoords='offset points')
 
-    plt.savefig("graph_rating_distribution.png")
-    print("Saved: graph_rating_distribution.png")
+    os.makedirs("../outputs/plots", exist_ok=True)
+    plt.savefig("../outputs/plots/graph_rating_distribution.png")
+    print("Saved: ../outputs/plots/graph_rating_distribution.png")
     plt.close()
 
 
-def plot_accuracy_curve(predictions_dir="./predictions"):
+def plot_accuracy_curve(predictions_dir=None):
     """
     Step 2: Visualize the Training
     Scans the checkpoints to find the history of accuracy improvement.
     """
+    if predictions_dir is None:
+        predictions_dir = "../outputs/checkpoints"
+    
     print(f"\n--- Generating Accuracy Curve from {predictions_dir} ---")
 
     # Find all 'trainer_state.json' files in the subdirectories
     json_files = glob.glob(f"{predictions_dir}/**/trainer_state.json", recursive=True)
 
     if not json_files:
-        print("No training logs found! Did you delete the './predictions' folder?")
+        print(f"No training logs found! Did you delete the '{predictions_dir}' folder?")
         print("Cannot generate accuracy graph automatically.")
         return
 
@@ -96,7 +103,6 @@ def plot_accuracy_curve(predictions_dir="./predictions"):
 
     plt.figure(figsize=(8, 5))
     plt.plot(epochs, accuracies, marker='o', linestyle='-', color='b', linewidth=2, markersize=8)
-
     plt.title("Model Accuracy Improvement Over Time", fontsize=16)
     plt.xlabel("Epochs (Training Rounds)", fontsize=12)
     plt.ylabel("Accuracy (0-1.0)", fontsize=12)
@@ -111,8 +117,9 @@ def plot_accuracy_curve(predictions_dir="./predictions"):
                  ha='center',
                  fontweight='bold')
 
-    plt.savefig("graph_accuracy_curve.png")
-    print("Saved: graph_accuracy_curve.png")
+    os.makedirs("../outputs/plots", exist_ok=True)
+    plt.savefig("../outputs/plots/graph_accuracy_curve.png")
+    print("Saved: ../outputs/plots/graph_accuracy_curve.png")
     plt.close()
 
 

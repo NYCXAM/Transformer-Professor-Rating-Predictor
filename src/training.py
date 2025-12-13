@@ -11,7 +11,7 @@ if torch.cuda.is_available():
 else:
     print("Something is wrong with cuda, training with CPU")
 
-dataset = load_dataset("csv", data_files="cleaned_reviews.csv", split="train")
+dataset = load_dataset("csv", data_files="../data/processed/cleaned_reviews.csv", split="train")
 dataset = dataset.cast_column("label", ClassLabel(num_classes=5))
 
 model_name = "google/electra-base-discriminator"
@@ -42,7 +42,7 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name, num_label
 
 # setting parameters for better evaluation accuracy
 training_args = TrainingArguments(
-    output_dir="./predictions",
+    output_dir="../outputs/checkpoints",
     num_train_epochs=8,
     eval_strategy="epoch",
     save_strategy="epoch",
@@ -76,7 +76,7 @@ trainer.train()
 results = trainer.evaluate()
 print(f"accuracy: {results['eval_accuracy']:.2%}")
 
-model.save_pretrained("./models/")
-tokenizer.save_pretrained("./models/")
+model.save_pretrained("../outputs/models")
+tokenizer.save_pretrained("../outputs/models")
 
 print("training finished")

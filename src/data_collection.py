@@ -4,8 +4,8 @@ import pandas as pd
 # url for the planetterp API
 url = "https://planetterp.com/api/v1/professor"
 
-# I know you said don't use you for this project, but your reviews
-# are the most diversed so I gotta use them for better training purpose lol
+# I know Max said don't use him for this project, but his reviews
+# are the most diverse and funny one, so I gotta use them for better training purpose lol
 professors = ["Maksym Morawski", "Nelson Padua-Perez",
               "Cliff Bakalian", "Jonathan Fernandes",
               "Mestiyage Gunatilleka"]
@@ -38,4 +38,4 @@ for name in professors:
 
 # store the data to csv file
 df = pd.DataFrame(reviews)
-df.to_csv("reviews.csv", index=False)
+df.to_csv("../data/raw/reviews.csv", index=False)
