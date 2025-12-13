@@ -40,8 +40,7 @@ def compute_metrics(pred):
 
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=5)
 
-# setting parameters for better training the model
-# idk many of these parameters, i just used whatever they said is useful online
+# setting parameters for better evaluation accuracy
 training_args = TrainingArguments(
     output_dir="./predictions",
     num_train_epochs=8,
@@ -56,13 +55,13 @@ training_args = TrainingArguments(
     warmup_ratio=0.1,
     weight_decay=0.01,
     fp16=torch.cuda.is_available(),  # GPU acceleration
-    dataloader_num_workers=0 if sys.platform == "win32" else 4,  # Windows: 0, Linux/Mac: 4
+    dataloader_num_workers=0 if sys.platform == "win32" else 4,  # win: 0, mac: 4
     dataloader_pin_memory=torch.cuda.is_available(),
     report_to="none",
     logging_steps=50
 )
 
-
+# set up the trainer
 trainer = Trainer(
     model=model,
     args=training_args,
